@@ -1,0 +1,25 @@
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.AssemblyReference.cache
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\AAPL-Day.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\AAPL-Month.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\AAPL-Week.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\DIS-Day.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\DIS-Month.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\DIS-Week.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\IBM-Day.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\IBM-Month.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\IBM-Week.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\INTC-Day.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\INTC-Month.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\INTC-Week.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\PAYX-Day.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\PAYX-Month.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Stock Data\PAYX-Week.csv
+C:\Users\jaybi\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1_mainForm.resources
