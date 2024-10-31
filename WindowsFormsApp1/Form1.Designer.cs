@@ -40,6 +40,7 @@
             this.dateTimePicker_startDate = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_endDate = new System.Windows.Forms.DateTimePicker();
             this.chart_OHLC = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.button_UpdateStock = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLC)).BeginInit();
             this.SuspendLayout();
@@ -70,7 +71,7 @@
             "Day",
             "Week",
             "Month"});
-            this.comboBox_period.Location = new System.Drawing.Point(335, 629);
+            this.comboBox_period.Location = new System.Drawing.Point(461, 632);
             this.comboBox_period.Name = "comboBox_period";
             this.comboBox_period.Size = new System.Drawing.Size(121, 21);
             this.comboBox_period.TabIndex = 2;
@@ -85,7 +86,7 @@
             "IBM",
             "INTC",
             "PAYX"});
-            this.comboBox_stockSymbol.Location = new System.Drawing.Point(56, 629);
+            this.comboBox_stockSymbol.Location = new System.Drawing.Point(269, 632);
             this.comboBox_stockSymbol.Name = "comboBox_stockSymbol";
             this.comboBox_stockSymbol.Size = new System.Drawing.Size(121, 21);
             this.comboBox_stockSymbol.TabIndex = 3;
@@ -93,7 +94,7 @@
             // 
             // dateTimePicker_startDate
             // 
-            this.dateTimePicker_startDate.Location = new System.Drawing.Point(539, 630);
+            this.dateTimePicker_startDate.Location = new System.Drawing.Point(720, 632);
             this.dateTimePicker_startDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker_startDate.Name = "dateTimePicker_startDate";
             this.dateTimePicker_startDate.Size = new System.Drawing.Size(200, 20);
@@ -102,7 +103,7 @@
             // 
             // dateTimePicker_endDate
             // 
-            this.dateTimePicker_endDate.Location = new System.Drawing.Point(775, 630);
+            this.dateTimePicker_endDate.Location = new System.Drawing.Point(963, 633);
             this.dateTimePicker_endDate.Name = "dateTimePicker_endDate";
             this.dateTimePicker_endDate.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_endDate.TabIndex = 5;
@@ -122,6 +123,7 @@
             series1.CustomProperties = "PriceUpColor=Lime, PriceDownColor=Red";
             series1.Legend = "Legend1";
             series1.Name = "Candlestick";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series1.YValuesPerPoint = 4;
             series2.ChartArea = "chartArea_volume";
             series2.Legend = "Legend1";
@@ -132,13 +134,23 @@
             this.chart_OHLC.Size = new System.Drawing.Size(660, 453);
             this.chart_OHLC.TabIndex = 6;
             this.chart_OHLC.Text = "chart1";
-            this.chart_OHLC.Click += new System.EventHandler(this.chart_OHLC_Click);
+            // 
+            // button_UpdateStock
+            // 
+            this.button_UpdateStock.Location = new System.Drawing.Point(733, 550);
+            this.button_UpdateStock.Name = "button_UpdateStock";
+            this.button_UpdateStock.Size = new System.Drawing.Size(75, 23);
+            this.button_UpdateStock.TabIndex = 7;
+            this.button_UpdateStock.Text = "Update Range";
+            this.button_UpdateStock.UseVisualStyleBackColor = true;
+            this.button_UpdateStock.Click += new System.EventHandler(this.button_Update_Click);
             // 
             // Form1_mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1365, 662);
+            this.Controls.Add(this.button_UpdateStock);
             this.Controls.Add(this.chart_OHLC);
             this.Controls.Add(this.dateTimePicker_endDate);
             this.Controls.Add(this.dateTimePicker_startDate);
@@ -164,6 +176,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker_startDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker_endDate;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_OHLC;
+        private System.Windows.Forms.Button button_UpdateStock;
     }
 }
 
