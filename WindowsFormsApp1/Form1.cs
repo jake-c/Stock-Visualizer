@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
+
+
 namespace WindowsFormsApp1
 {
+
+
+
+
+
     public partial class Form1_mainForm : Form
     {
         public Form1_mainForm()
@@ -44,162 +52,79 @@ namespace WindowsFormsApp1
 
 
 
+            DisplayData(filePath, startDate, endDate);
 
-            LoadAndFilterCsvData(filePath, startDate, endDate);
-            LoadChartData(filePath);
+
 
         }
 
 
 
 
-        ///COMMENT LATER. ADDED THIS
-        private void LoadAndFilterCsvData(string filePath, DateTime startDate, DateTime endDate)
+
+        private List<StockData> LoadCsvData(string filePath, DateTime startDate, DateTime endDate)
         {
-            var dt = new DataTable();
-
-            // Check if the file exists before proceeding
-            if (!File.Exists(filePath))
-            {
-                MessageBox.Show("CSV file not found.");
-                return;
-            }
-
-            using (var reader = new StreamReader(filePath))
-            {
-                bool firstLine = true;
-                while (!reader.EndOfStream)
+            var stockDataList = File.ReadAllLines(filePath)
+                .Skip(1) // Skip header line
+                .Select(line =>
                 {
-                    var line = reader.ReadLine();
                     var values = line.Split(',');
-
-                    /// Add columns to DataTable for the first line (headers)
-                    if (firstLine)
+                    return new StockData
                     {
-                        foreach (var header in values)
-                        {
-                            dt.Columns.Add(header);
-                        }
-                        firstLine = false;
-                    }
-                    else
-                    {
-                        /// Parse date from the CSV row
-                        DateTime rowDate = DateTime.Parse(values[0]); /// Assuming the Date is in the first column
+                        Date = DateTime.Parse(values[0]),
+                        Open = double.Parse(values[1]),
+                        High = double.Parse(values[2]),
+                        Low = double.Parse(values[3]),
+                        Close = double.Parse(values[4]),
+                        Volume = double.Parse(values[5])
+                    };
+                })
+                .Where(data => data.Date >= startDate && data.Date <= endDate) // Filter by date
+                .ToList();
 
-                        /// Filter by start and end date
-                        if (rowDate >= startDate && rowDate <= endDate)
-                        {
-                            dt.Rows.Add(values); /// Add row to DataTable if within range
-                        }
-                    }
-                }
-            }
-
-            /// Bind the filtered DataTable to the DataGridView
-            dataGridView_stockData.DataSource = dt;
+            return stockDataList;
         }
 
 
 
 
-
-        private void LoadCandlestickData(string filePath)
+        private void DisplayData(string filePath, DateTime startDate, DateTime endDate)
         {
-            /// Clear any previous data in the series
-            chart_OHLC.Series.Clear();
+            var stockDataList = LoadCsvData(filePath, startDate, endDate);
 
-            /// Set up the candlestick series
-            Series candlestickSeries = new Series("CandlestickSeries")
-            {
-                ChartType = SeriesChartType.Candlestick,
-                XValueType = ChartValueType.DateTime
-            };
+            // Bind to DataGridView
+            dataGridView_stockData.DataSource = stockDataList;
 
-            /// Configure up and down colors for candlesticks
-            candlestickSeries["PriceUpColor"] = "Lime"; // Green for up days
-            candlestickSeries["PriceDownColor"] = "Red"; // Red for down days
-
-            /// Add the series to the chart
-            chart_OHLC.Series.Add(candlestickSeries);
-
-            /// Load and parse data from the CSV file
-            using (var reader = new StreamReader(filePath))
-            {
-                bool isFirstRow = true;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-
-                    if (isFirstRow)
-                    {
-                        isFirstRow = false; // Skip header row
-                        continue;
-                    }
-
-                    /// Parse each column (assuming Date, Open, High, Low, Close)
-                    DateTime date = DateTime.Parse(values[0]);
-                    double open = double.Parse(values[1]);
-                    double high = double.Parse(values[2]);
-                    double low = double.Parse(values[3]);
-                    double close = double.Parse(values[4]);
-
-                    /// Add data point for candlestick series
-                    int pointIndex = candlestickSeries.Points.AddXY(date, high);
-                    candlestickSeries.Points[pointIndex].YValues[1] = low;
-                    candlestickSeries.Points[pointIndex].YValues[2] = open;
-                    candlestickSeries.Points[pointIndex].YValues[3] = close;
-                }
-            }
-
-            /// Optional: Customize chart area for better visibility
-            chart_OHLC.ChartAreas[0].AxisX.LabelStyle.Format = "yyyy-MM-dd";
-            chart_OHLC.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Days;
-            chart_OHLC.ChartAreas[0].AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
-            chart_OHLC.ChartAreas[0].AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+            // Populate charts
+            PopulateCharts(stockDataList);
         }
 
-
-        /// WEIRD FORMATTING
-        private void LoadChartData(string filePath)
+        private void PopulateCharts(List<StockData> stockDataList)
         {
             chart_OHLC.Series["Candlestick"].Points.Clear();
             chart_OHLC.Series["Volume"].Points.Clear();
 
-            // Set up color properties for the candlestick chart
-            chart_OHLC.Series["Candlestick"].CustomProperties = "PriceUpColor=Lime, PriceDownColor=Red";
-
-            using (var reader = new StreamReader(filePath))
+            foreach (var data in stockDataList)
             {
-                bool isFirstRow = true;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
+                // Candlestick series points
+                chart_OHLC.Series["Candlestick"].Points.AddXY(data.Date, data.High, data.Low, data.Open, data.Close);
 
-                    if (isFirstRow)
-                    {
-                        isFirstRow = false; // Skip the header row
-                        continue;
-                    }
+                // Set color based on open-close relationship
+                var dataPoint = chart_OHLC.Series["Candlestick"].Points.Last();
+                dataPoint.Color = (data.Close >= data.Open) ? Color.Lime : Color.Red;
 
-                    DateTime date = DateTime.Parse(values[0]);
-                    double open = double.Parse(values[1]);
-                    double high = double.Parse(values[2]);
-                    double low = double.Parse(values[3]);
-                    double close = double.Parse(values[4]);
-                    double volume = double.Parse(values[5]);
-
-                    int pointIndex = chart_OHLC.Series["Candlestick"].Points.AddXY(date, high);
-                    chart_OHLC.Series["Candlestick"].Points[pointIndex].YValues[1] = low;
-                    chart_OHLC.Series["Candlestick"].Points[pointIndex].YValues[2] = open;
-                    chart_OHLC.Series["Candlestick"].Points[pointIndex].YValues[3] = close;
-
-                    chart_OHLC.Series["Volume"].Points.AddXY(date, volume);
-                }
+                // Volume series points
+                chart_OHLC.Series["Volume"].Points.AddXY(data.Date, data.Volume);
             }
         }
+
+
+
+
+
+
+
+
 
 
 
@@ -217,5 +142,16 @@ namespace WindowsFormsApp1
         {
 
         }
+    }
+
+
+    public class StockData
+    {
+        public DateTime Date { get; set; }
+        public double Open { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Close { get; set; }
+        public double Volume { get; set; }
     }
 }

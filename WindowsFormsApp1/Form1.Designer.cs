@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -46,9 +47,9 @@
             // dataGridView_stockData
             // 
             this.dataGridView_stockData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_stockData.Location = new System.Drawing.Point(56, 12);
+            this.dataGridView_stockData.Location = new System.Drawing.Point(2, 12);
             this.dataGridView_stockData.Name = "dataGridView_stockData";
-            this.dataGridView_stockData.Size = new System.Drawing.Size(400, 400);
+            this.dataGridView_stockData.Size = new System.Drawing.Size(685, 453);
             this.dataGridView_stockData.TabIndex = 0;
             // 
             // button_loadData
@@ -108,24 +109,27 @@
             // 
             // chart_OHLC
             // 
-            chartArea1.Name = "ChartArea1";
+            chartArea1.Name = "chartArea_candlestick";
+            chartArea2.Name = "chartArea_volume";
             this.chart_OHLC.ChartAreas.Add(chartArea1);
+            this.chart_OHLC.ChartAreas.Add(chartArea2);
             legend1.Name = "Legend1";
             this.chart_OHLC.Legends.Add(legend1);
-            this.chart_OHLC.Location = new System.Drawing.Point(775, -11);
+            this.chart_OHLC.Location = new System.Drawing.Point(693, 12);
             this.chart_OHLC.Name = "chart_OHLC";
-            series1.ChartArea = "ChartArea1";
+            series1.ChartArea = "chartArea_candlestick";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
             series1.CustomProperties = "PriceUpColor=Lime, PriceDownColor=Red";
             series1.Legend = "Legend1";
             series1.Name = "Candlestick";
             series1.YValuesPerPoint = 4;
-            series2.ChartArea = "ChartArea1";
+            series2.ChartArea = "chartArea_volume";
             series2.Legend = "Legend1";
             series2.Name = "Volume";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             this.chart_OHLC.Series.Add(series1);
             this.chart_OHLC.Series.Add(series2);
-            this.chart_OHLC.Size = new System.Drawing.Size(400, 400);
+            this.chart_OHLC.Size = new System.Drawing.Size(660, 453);
             this.chart_OHLC.TabIndex = 6;
             this.chart_OHLC.Text = "chart1";
             this.chart_OHLC.Click += new System.EventHandler(this.chart_OHLC_Click);
