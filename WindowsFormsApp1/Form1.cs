@@ -24,6 +24,8 @@ namespace WindowsFormsApp1
         }
 
 
+
+        //This is the class global list of stockData objects that we can filter from
         private List<StockData> fullStockData;
 
 
@@ -59,31 +61,47 @@ namespace WindowsFormsApp1
             //Based on user input, concatenate inputs to obtain the appropriate csv file path from the Stock Data folder
             string filePath = $"Stock Data/{stockSymbol}-{period}.csv";
 
-
+            fullStockData = LoadCsvData(filePath);
             //Call the function to handle the csv
-            DisplayData(filePath, startDate, endDate);
+            FilterAndDisplayData(startDate, endDate);
 
         }
 
 
 
-
+        /// <summary>
+        /// Without having to parse the entire csv again, we can simply
+        /// populate the graphs again with a filtered version of the current stockData list 
+        /// when a user changes the time range
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Update_Click(object sender, EventArgs e)
         {
+            // Check if fullStockData is loaded and contains data. If not, propmt user to load stock first
+            if (fullStockData == null || !fullStockData.Any())
+            {
+                MessageBox.Show("No stock data is currently loaded. Please load stock data first.");
+                return;
+            }
+            //Capture the change in the timePicker controls
+            DateTime startDate = dateTimePicker_startDate.Value;
+            DateTime endDate = dateTimePicker_endDate.Value;
 
+            // Filter and display data based on the selected date range
+            FilterAndDisplayData(startDate, endDate);
         }
 
 
         /// <summary>
         /// Responsible for parsing the given csv file and turning each row of the csv
         /// into a stock object within a list.
-        /// In addition, only the entries within the user inputted date range are added to the list
         /// </summary>
         /// <param name="filePath">The user input of stockSymbol and period is concatenated to get us the file path of the current csv</param>
         /// <param name="startDate">user input startDate</param>
         /// <param name="endDate">user specified endDate</param>
         /// <returns>The list of stock objects, filtered by date range, and ready to be loaded into a graph</returns>
-        private List<StockData> LoadCsvData(string filePath, DateTime startDate, DateTime endDate)
+        private List<StockData> LoadCsvData(string filePath)
         {
             var stockDataList = File.ReadAllLines(filePath) // Parse the csv file
                 .Skip(1) // Skip header line
@@ -101,8 +119,7 @@ namespace WindowsFormsApp1
                         Volume = double.Parse(values[5])
                     };
                 })
-                // From here, only keep the remaining entries that have a date value within the time window specified by the user
-                .Where(data => data.Date >= startDate && data.Date <= endDate) 
+
                 // Convert the LINQ query into a usable list
                 .ToList();
 
@@ -137,21 +154,24 @@ namespace WindowsFormsApp1
 
 
         /// <summary>
-        /// DisplayData essentially is a wrapper function that will both call the loadCsvData function
-        /// then immediately call PopulateCharts on the list that was just created.
+        /// FilterAndDisplayData essentially filters the data based on the start and end times, keeping
+        /// only the elements that have a date within the two parameters
         /// </summary>
-        /// <param name="filePath">The file path is the relative path to the csv that the user selected</param>
         /// <param name="startDate">Start date is the user inputted start date from the first combobox</param>
         /// <param name="endDate">End date is the user inputted start date from the second combobox</param>
-        private void DisplayData(string filePath, DateTime startDate, DateTime endDate)
+        private void FilterAndDisplayData(DateTime startDate, DateTime endDate)
         {
-            var stockDataList = LoadCsvData(filePath, startDate, endDate);
-            
-            /// Bind to DataGridView
-            dataGridView_stockData.DataSource = stockDataList;
 
-            /// Populate charts
-            PopulateCharts(stockDataList);
+            // Linq is used here to select the list elements based off the constraint and then return the list back to filteredData
+            var filteredData = fullStockData
+                .Where(data => data.Date >= startDate && data.Date <= endDate)
+                .ToList();
+
+            // Bind to DataGridView
+            dataGridView_stockData.DataSource = filteredData;
+
+            // Populate charts
+            PopulateCharts(filteredData);
         }
 
 
